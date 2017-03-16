@@ -23,6 +23,7 @@ protected:
     friend ostream& operator<<(ostream& stream, const Movie& movie);
 
 private:
+
     //year that the movie released
 	int year;
 	

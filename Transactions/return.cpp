@@ -5,6 +5,19 @@
 #include <iostream>
 #include "return.h"
 
+
+//------------------------------------------------------------------------------
+/*
+ * SETDATA
+ *
+ * Description:
+ * Sets the data of this Transaction, using the passed ifstream.
+ *
+ * Preconditions: the infile ifstream is open
+ *
+ * Postconditions: All data for this Transaction has been pulled from the
+ * ifstream
+ */
 bool Return::setData(ifstream &infile, char transactionType) {
 
     //set the transaction type
@@ -32,7 +45,6 @@ bool Return::setData(ifstream &infile, char transactionType) {
     //read in the genre
     char genre;
     infile >> genre;
-    setGenre(genre);
 
     //create a partially filled out movie class so we can search the
     // correlating movie BST when we perform the transaction
@@ -43,7 +55,23 @@ bool Return::setData(ifstream &infile, char transactionType) {
 }
 
 
-void Return::doTransaction(BST movies[], HashTable &customers) {
+//------------------------------------------------------------------------------
+/*
+ * DOTRANSACTION
+ *
+ * Description:
+ * Performs the specific details of this Transaction.
+ *
+ * In this case we retrieve the desired Customer and if they have borrowed
+ * the indicated Movie, we take it away from them, and insert it back into
+ * the store's stock.
+ *
+ * Preconditions: None
+ *
+ * Postconditions: If the Customer and Movie were found, then the Customer
+ * now has one less copy of the movie, and the store has one more copy in stock.
+ */
+void Return::doTransaction(BST movies[], HashTable& customers) {
 
     //create a pointer for a movie and a customer, respectively, so we can
     // hold the results of retrieval from the customers hashtable and the
@@ -51,7 +79,7 @@ void Return::doTransaction(BST movies[], HashTable &customers) {
     Customer* customer;
     Movie* borrowedMovie;
     Movie* movie = getMovie();
-    char genre = getGenre();
+    char genre = movie->getGenre();
 
     //if the customer exists
     if(customers.retrieveCustomer(getCustomerID(), customer)) {
@@ -59,12 +87,23 @@ void Return::doTransaction(BST movies[], HashTable &customers) {
         //and they have borrowed the movie that we want them to return
         if (customer->getBorrowedMovie(movie, borrowedMovie)) {
 
+            //create a pointer for retrieving the movie from the movies BST
+            // array
             Movie* moviePointer;
 
+            //if we can find the movie -- to see if the store owns it
             if(movies[genre - 'A'].retrieve(borrowedMovie, moviePointer)){
 
-                movieTitle = moviePointer->getTitle();
+                //insert the movie that we got from the customer into the
+                // store inventory... since it has a stock of 1, it will
+                // simply increment the stock of the movie in the store by 1
                 movies[genre - 'A'].insert(borrowedMovie);
+
+                //store the title of the movie for use in getString
+                movieTitle = moviePointer->getTitle();
+
+                //insert the operation into the customer's history, since it
+                // was completed
                 customer->insertHistory(getString());
 
             }else{
@@ -88,7 +127,20 @@ void Return::doTransaction(BST movies[], HashTable &customers) {
     }
 }
 
+
+//------------------------------------------------------------------------------
+/*
+ * GETSTRING
+ *
+ * Description:
+ * Gets a string representation of the Transaction.
+ *
+ * Preconditions: None
+ *
+ * Postconditions: A string representation of the Transaction has been returned
+ */
 string Return::getString() const {
 
+    //print the string representing this Transaction
     return "Returned " + movieTitle + ".";
 }

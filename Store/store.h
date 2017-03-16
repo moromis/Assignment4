@@ -30,6 +30,7 @@ private:
 	//hashtable of all customer accounts
 	HashTable customers;
 
+	//factory for movies
     MovieFactory movieFactory;
 
 	//BSTs of movies

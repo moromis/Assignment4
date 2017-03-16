@@ -14,7 +14,13 @@ using namespace std;
 
 class HashTable {
 
+
+    /*
+     * This defines the nodes that the HashTable contains. Each node has a
+     * Customer and a pointer to the next node
+     */
     struct node{
+
         Customer* data;
         node* next;
 
@@ -41,6 +47,7 @@ public:
     //inserts a customer into the table
     void insert(Customer *customer);
 
+    //method to build the hashtable given a ifstream
 	void buildHashTable(ifstream &infile);
 
 private:

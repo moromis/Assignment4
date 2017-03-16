@@ -12,25 +12,20 @@ using namespace std;
 //array and hash sizes
 const int CURRENTMOVIEGENRES = 3;
 const int POSSIBLEMOVIEGENRES = 26;
-const int MAXHASHSIZE = 100;
+const int MAXHASHSIZE = 97;
 
 
 //spacing constants (for printing)
-
-const string HEADERTITLE= "                 MOVIE TITLE";
+const string HEADERTITLE= "          MOVIE TITLE";
 const string HEADERSTOCK = "                                        STOCK";
+const int HEADERLENGTH = 43;
 
-const int HEADERLENGTH = 50;
-
-const int INITIALLENGTH = 17;
-const string INITIALSPACES = "                 ";
+const int INITIALLENGTH = 10;
 const int TITLELENGTH = 53;
-const string TITLESPACES =
-        "                                                 ";
 
 const string HEADERSTRING =
-"###################################################"
-        "##################################################";
+"#########################################"
+        "##########################################";
 
 
 //naming and char identifiers
@@ -45,6 +40,7 @@ public:
     //solution found here: http://stackoverflow.com/questions/1798112/removing-leading-and-trailing-spaces-from-a-string
     //and modified to cut \n and \r characters from the end of the string
     static void trimString(string &in) {
+
         stringstream ss;
         ss << in;
 

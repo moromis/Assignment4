@@ -28,54 +28,56 @@ private:
 	
 	// Indicates the type of transaction - Borrow, Return, or Inventory
 	char transactionType;
-	
-	char format;
-	
-	char genre;
-	
-	// The year the movie was released
-	int year;
-	
-	// the name of a major actor in the movie
-	string actor;
 
+	//the format of the movie
+	char format;
+
+    //the genre of the movie
+	char genre;
+
+    //the movie used in the transaction, if necessary
     Movie* movie;
 
 public:
 
+~Transaction();
+
+    //method to perform the specifics of this transaction
     virtual void doTransaction(BST movies[], HashTable &customers) = 0;
 
-	int getCustomerID() const;
+    virtual bool setData(ifstream& infile, char transactionType) = 0;
 
-	void setCustomerID(int userID);
-
-	char getTransactionType() const;
-
-	void setTransactionType(char transactionType);
-
-	char getFormat() const;
-
-	void setFormat(char format);
-
-	char getGenre() const;
-
-	void setGenre(char genre);
-
-	int getYear() const;
-
-	void setYear(int year);
-
-	string getActor() const;
-
-	void setActor(string actor);
-
+    //method to get the string representation of this transaction
     virtual string getString() const = 0;
 
+
+    //getters and setters
+public:
+
+    //getter for the customer's ID
+    int getCustomerID() const;
+
+    //setter for the customer's ID
+    void setCustomerID(int userID);
+
+    //getter for the transaction type
+    char getTransactionType() const;
+
+    //setter for the transaction type
+    void setTransactionType(char transactionType);
+
+    //getter for the format of the movie
+    char getFormat() const;
+
+    //setter for the format of the movie
+    void setFormat(char format);
+
+    //setter for the movie that this transaction may borrow/return
 	void setMovie(Movie* movie);
 
+    //getter for the movie that this transaction may borrow/return
     Movie* getMovie() const;
 
-	virtual bool setData(ifstream& infile, char transactionType) = 0;
 
 };
 

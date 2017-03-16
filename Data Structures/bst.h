@@ -26,8 +26,6 @@ class BST {
     //output operator
     friend ostream& operator<<(ostream& stream, const BST& bst);
 
-private:
-    
     /*
     This defines the nodes that the BST contains. Each BST contains
     a Movie pointer and two pointers that point to two different nodes
@@ -42,42 +40,28 @@ private:
                 data(d), left(l), right(r){};
     };
 
-    /*
-    Helper function for the insert function
-    */
-    Node* insert(Node* subtree, Movie* source);
-    
-    /*
-    Helper function for the retrieve function
-    */
-    bool retrieve(Node* subtree, Movie* target, Movie*& out) const;
-    
-    /*
-    Helper function for the makeEmpty function
-    */
-    void makeEmpty(Node* subtree);
+private:
 
-    /* 
-    This variable represents the subtree of the tree - the first Movie object
-    that is inserted into the tree will be set to this variable
-    */ 
-    Node* root = nullptr;
+    /*
+     * Helper Functions
+     */
 
-    string inorderWalk(Node* subtree) const;
-
+    //finds all stock of a movie
     int findAllStock(Node* subtree, Movie*& movie) const;
 
+    //resets the visited flag of all nodes in the subtree
     void resetVisited(Node* subtree) const;
 
 public:
 
+    //destructor
     ~BST();
 
     /*
     Intakes an Movie object and places it into the BST. The BST is ordered
     according the Movie's "year" field value
     */
-	void insert(Movie* source);
+    void insert(Movie* source);
 
     /*
     The retrieve function intakes two parameters.The first one is of type Movie.
@@ -89,16 +73,43 @@ public:
     point to that Movie object. If the Movie object is found within the BST, 
     the function will return true - otherwise it will return false.
     */
-	bool retrieve(Movie* target, Movie*& out) const;
+    bool retrieve(Movie* target, Movie*& out) const;
 
 
     /*
     This functions goes through the BST and deletes every Movie object
     and sets the subtree to NULL
     */
-	void makeEmpty();
+    void makeEmpty();
 
+    //inorder walk function to print out the BST
     string inorderWalk() const;
+
+private:
+
+    /*
+    Helper function for the insert function
+    */
+    Node* insert(Node* subtree, Movie* source);
+
+    /*
+    Helper function for the retrieve function
+    */
+    bool retrieve(Node* subtree, Movie* target, Movie*& out) const;
+
+    /*
+    Helper function for the makeEmpty function
+    */
+    void makeEmpty(Node* subtree);
+
+    /*
+    This variable represents the subtree of the tree - the first Movie object
+    that is inserted into the tree will be set to this variable
+    */
+    Node* root = nullptr;
+
+    //Helper function for inorder walk
+    string inorderWalk(Node* subtree) const;
 
 };
 

@@ -12,6 +12,7 @@ customer and creates an Customer object for each customer.
 #define CUSTOMER_H
 
 #include <fstream>
+#include <stack>
 #include <queue>
 #include "../Data Structures/bst.h"
 
@@ -35,10 +36,11 @@ private:
 
     //queue to hold a string of the transactions that the customer has
     // performed at the movie store
-    queue<string> borrowingHistory;
+    stack<string> borrowingHistory;
 
     //queue of customer's borrowed movies
     queue<Movie*> borrowedMovies;
+
 
 public:
 
@@ -58,7 +60,7 @@ public:
 	void insertHistory(string historyToInsert);
 
 
-	//Getters and setters
+	//getters and setters
 public:
 
 	// returns the customerID - used to find a customer in the hash table

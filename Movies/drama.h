@@ -17,10 +17,13 @@ class Drama : public Movie {
 
 public:
 
+    //to string method, to print out this movie
     void toString(ostream& stream) const;
 
+    //constructor, takes in the genre of the movie
     Drama(char genre);
 
+    //sets the data of the movie, given an ifstream
 	void setData(ifstream& infile);
 
     //comparison operators

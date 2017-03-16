@@ -10,11 +10,31 @@
 #include "../Movies/classic.h"
 #include "../globals.h"
 
+
+//------------------------------------------------------------------------------
+/*
+ * CREATEMOVIE
+ *
+ * Description:
+ * Creates a Movie, based on the passed genre char. movie is set to the newly
+ * instantiated Movie, based on the principle of polymorphism. A bool
+ * representing the success of the instantiation is returned.
+ *
+ *
+ * Preconditions: A movie needs to be created.
+ *
+ * Postconditions: A bool indicating the success of movie's instantiation has
+ * been returned, and if the genre is a correct char (currently F, D, or C),
+ * then movie has been bound to the correct type of movie
+ */
 bool MovieFactory::createMovie(ifstream& infile, char genre, Movie*& movie) {
 
+    //switch based off of the char genre of the Movie
     switch(genre){
         case 'F': {
 
+            //if we have a "funny" (F) Comedy, create a new Comedy and set
+            // the data within that Movie
             movie = new Comedy(genre);
             movie->setData(infile);
             return true;
@@ -22,18 +42,24 @@ bool MovieFactory::createMovie(ifstream& infile, char genre, Movie*& movie) {
         }
         case 'D': {
 
+            //if we have a Drama (D), create a new Drama and set
+            // the data within that Movie
             movie = new Drama(genre);
             movie->setData(infile);
             return true;
         }
         case 'C': {
 
+            //if we have a Classic (C), create a new Classic and set
+            // the data within that Movie
             movie = new Classic(genre);
             movie->setData(infile);
             return true;
         }
         default: {
 
+            //otherwise, grab the rest of the line and return false, to
+            // indicate that the genre given is not a correct genre
             string store;
             getline(infile, store);
             return false;
@@ -41,6 +67,23 @@ bool MovieFactory::createMovie(ifstream& infile, char genre, Movie*& movie) {
     }
 }
 
+
+//------------------------------------------------------------------------------
+/*
+ * CREATEPARTIALMOVIE
+ *
+ * Description:
+ * Creates a Movie, based on the passed genre char. This class is used to
+ * create partial movies from the commands file, and is called from the
+ * transaction factory.
+ *
+ *
+ * Preconditions: A movie needs to be created.
+ *
+ * Postconditions: If the genre is a correct char (currently F, D, or C),
+ * then a movie has been created of the correct type and returned to the
+ * calling function.
+ */
 Movie* MovieFactory::createPartialMovie(char genre, ifstream& infile){
 
     string store;
@@ -49,6 +92,8 @@ Movie* MovieFactory::createPartialMovie(char genre, ifstream& infile){
     switch(genre) {
         case 'D': {
 
+            //if we have a Drama (D), create a new Drama and set
+            // the data within that Movie
             movie = new Drama(genre);
 
             getline(infile, store, ',');
@@ -63,6 +108,8 @@ Movie* MovieFactory::createPartialMovie(char genre, ifstream& infile){
         }
         case 'F': {
 
+            //if we have a "funny" (F) Comedy, create a new Comedy and set
+            // the data within that Movie
             movie = new Comedy(genre);
 
             getline(infile, store, ',');
@@ -76,6 +123,8 @@ Movie* MovieFactory::createPartialMovie(char genre, ifstream& infile){
         }
         case 'C': {
 
+            //if we have a Classic (C), create a new Classic and set
+            // the data within that Movie
             movie = new Classic(genre);
 
             infile >> store;
@@ -94,6 +143,8 @@ Movie* MovieFactory::createPartialMovie(char genre, ifstream& infile){
         }
         default: {
 
+            //print an error, since the genre is not among the genres we
+            // currently recognize
             stringstream ss;
             ss << "ERROR: '" << genre << "' is not a valid "
                     "genre" << endl;

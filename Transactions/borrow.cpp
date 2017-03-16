@@ -6,6 +6,19 @@
 #include <iostream>
 #include "borrow.h"
 
+
+//------------------------------------------------------------------------------
+/*
+ * SETDATA
+ *
+ * Description:
+ * Sets the data of this Transaction, using the passed ifstream.
+ *
+ * Preconditions: the infile ifstream is open
+ *
+ * Postconditions: All data for this Transaction has been pulled from the
+ * ifstream
+ */
 bool Borrow::setData(ifstream& infile, char transactionType){
 
     //set the transaction type
@@ -33,7 +46,6 @@ bool Borrow::setData(ifstream& infile, char transactionType){
     //set the genre of the movie
     char genre;
     infile >> genre;
-    setGenre(genre);
 
     //create a partially filled out movie class so we can search the
     // correlating movie BST when we perform the transaction
@@ -43,6 +55,26 @@ bool Borrow::setData(ifstream& infile, char transactionType){
     return (partialMovie != nullptr);
 }
 
+
+//------------------------------------------------------------------------------
+/*
+ * DOTRANSACTION
+ *
+ * Description:
+ * Performs the specific details of this Transaction.
+ *
+ * In this case we retrieve the desired Customer and Movie, if possible, and
+ * then give the Customer a single copy of the Movie, and decrement the stock
+ * of the Movie by one as well.
+ *
+ * A string is inserted into the customer's transaction history indicating
+ * that this operation was performed, if successful.
+ *
+ * Preconditions: None
+ *
+ * Postconditions: If the Customer and Movie were found, then the Customer
+ * now has one copy of the movie, and the store has one less copy in stock.
+ */
 void Borrow::doTransaction(BST movies[], HashTable &customers) {
 
     //create a pointer for a movie and a customer, respectively, so we can
@@ -51,7 +83,7 @@ void Borrow::doTransaction(BST movies[], HashTable &customers) {
     Movie* stockedMovie;
     Customer* customer;
     Movie* movie = getMovie();
-    char genre = getGenre();
+    char genre = movie->getGenre();
 
     //if the customer exists
     if(customers.retrieveCustomer(getCustomerID(), customer)) {
@@ -67,6 +99,8 @@ void Borrow::doTransaction(BST movies[], HashTable &customers) {
                 // reduce the stock of the store's copy of the movie by 1
                 customer->borrowMovie(movie);
                 stockedMovie->setStock(stockedMovie->getStock() - 1);
+
+                //store the title of the movie for use in getString
                 movieTitle = stockedMovie->getTitle();
 
                 //insert the operation into the customer's history, since it
@@ -78,7 +112,7 @@ void Borrow::doTransaction(BST movies[], HashTable &customers) {
             } else {
 
                 cout << "ERROR: " << "there are no copies of " <<
-                     *movie << " currently in stock " << endl;
+                     stockedMovie->getTitle() << " currently in stock " << endl;
             }
 
         } else {
@@ -92,8 +126,21 @@ void Borrow::doTransaction(BST movies[], HashTable &customers) {
     }
 }
 
+
+//------------------------------------------------------------------------------
+/*
+ * GETSTRING
+ *
+ * Description:
+ * Gets a string representation of the Transaction.
+ *
+ * Preconditions: None
+ *
+ * Postconditions: A string representation of the Transaction has been returned
+ */
 string Borrow::getString() const {
 
+    //print the string representing this Transaction
     return "Borrowed " + movieTitle + ".";
 
 }

@@ -44,7 +44,7 @@ public:
 	//pop the last element, the first inserted, from the bottom of the queue.
 	Transaction* pop();
 
-    bool isEmpty();
+    bool empty();
 
     //build the queue given an ifstream
 	void buildQueue(ifstream& infile);

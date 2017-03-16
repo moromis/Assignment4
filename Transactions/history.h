@@ -13,19 +13,24 @@ using namespace std;
 
 class History : public Transaction {
 
-private:
-
-	string getString() const;
-
-private:
-
-    string customerName;
-
 public:
 
-	void doTransaction(BST movies[], HashTable &customers);
+    //method to perform the specifics of this transaction, in this case
+    // displaying a customer's borrowing history
+    void doTransaction(BST movies[], HashTable &customers);
 
-	bool setData(ifstream& infile, char transactionType);
+    //set the data of Transaction
+    bool setData(ifstream& infile, char transactionType);
+
+private:
+
+    //method to get the string representation of this transaction
+    string getString() const;
+
+private:
+
+    //name of customer that we want to display the history of
+    string customerName;
 
 };
 
